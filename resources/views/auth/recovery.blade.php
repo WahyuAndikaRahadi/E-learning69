@@ -755,7 +755,7 @@
                         </div>
                     </div>
                 </form>
-                <p class="terms-conditions">© 2022 CBT-Learning Laravel8 All Rights Reserved. <a href="https://www.freepik.com/" target="_blank">Illustration by Freepik</a></p>
+                <p class="terms-conditions">Copyright © 2025 SMK Negeri 69 Jakarta, All rights reserved.</p>
 
             </div>
         </div>

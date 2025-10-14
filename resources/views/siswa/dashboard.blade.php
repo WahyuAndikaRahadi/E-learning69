@@ -236,11 +236,10 @@
         </div>
         <div class="footer-wrapper">
             <div class="footer-section f-section-1">
-                <p class="">Copyright © 2021 <a target="_blank" href="http://bit.ly/demo-abdul"
-                        class="text-primary">Abduloh Malela</a></p>
+                <p class="">Copyright © 2025 SMK Negeri 69 Jakarta, All rights reserved.</p>
             </div>
             <div class="footer-section f-section-2">
-                <p class="">CBT-MALELA v2</p>
+                <p class="">e-Learning 69</p>
             </div>
         </div>
     </div>
