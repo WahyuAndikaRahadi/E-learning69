@@ -41,11 +41,11 @@ class PgImport implements ToModel, WithHeadingRow, SkipsEmptyRows, WithValidatio
         return new DetailUjian([
             'kode'    => $this->kode,
             'soal'    => $row['soal'],
-            'pg_1'    => 'A. ' . $row['a'],
-            'pg_2'    => 'B. ' . $row['b'],
-            'pg_3'    => 'C. ' . $row['c'],
-            'pg_4'    => 'D. ' . $row['d'],
-            'pg_5'    => 'E. ' . $row['e'],
+            'pg_1'    => $row['a'],
+            'pg_2'    => $row['b'],
+            'pg_3'    => $row['c'],
+            'pg_4'    => $row['d'],
+            'pg_5'    => $row['e'],
             'jawaban' => $row['jawaban'],
         ]);
     }

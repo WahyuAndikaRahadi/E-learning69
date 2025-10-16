@@ -40,18 +40,24 @@
                                             </select>
                                         </div>
                                     </div>
+                                    {{-- START MODIFIED: Mengganti dropdown kelas dengan checkbox group --}}
                                     <div class="col-lg-4">
                                         <div class="form-group">
-                                            <label for="">Kelas</label>
-                                            <select class="form-control" name="kelas" id="kelas" required>
-                                                <option value="">Pilih</option>
+                                            <label for="kelas_checkbox_group">Kelas (Pilih satu atau lebih)</label>
+                                            <div id="kelas_checkbox_group" class="border p-2" style="max-height: 150px; overflow-y: auto; border-radius: 5px;">
                                                 @foreach ($guru_kelas as $gk)
-                                                    <option value="{{ $gk->kelas->id }}">{{ $gk->kelas->nama_kelas }}
-                                                    </option>
+                                                    <div class="custom-control custom-checkbox">
+                                                        {{-- name diubah menjadi kelas[] untuk menampung banyak nilai --}}
+                                                        <input type="checkbox" class="custom-control-input checkbox-kelas" name="kelas[]"
+                                                            value="{{ $gk->kelas->id }}" id="kelas-{{ $gk->kelas->id }}">
+                                                        <label class="custom-control-label"
+                                                            for="kelas-{{ $gk->kelas->id }}">{{ $gk->kelas->nama_kelas }}</label>
+                                                    </div>
                                                 @endforeach
-                                            </select>
+                                            </div>
                                         </div>
                                     </div>
+                                    {{-- END MODIFIED --}}
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="">Waktu Jam</label>
@@ -234,17 +240,24 @@
                                     </select>
                                 </div>
                             </div>
+                            {{-- START MODIFIED: Mengganti dropdown kelas di modal dengan checkbox group --}}
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="">Kelas</label>
-                                    <select class="form-control" name="e_kelas" id="e_kelas" required>
-                                        <option value="">Pilih</option>
+                                    <label for="e_kelas_checkbox_group">Kelas (Pilih satu atau lebih)</label>
+                                    <div id="e_kelas_checkbox_group" class="border p-2" style="max-height: 150px; overflow-y: auto; border-radius: 5px;">
                                         @foreach ($guru_kelas as $gk)
-                                            <option value="{{ $gk->kelas->id }}">{{ $gk->kelas->nama_kelas }}</option>
+                                            <div class="custom-control custom-checkbox">
+                                                {{-- name diubah menjadi e_kelas[] untuk menampung banyak nilai --}}
+                                                <input type="checkbox" class="custom-control-input checkbox-e-kelas" name="e_kelas[]"
+                                                    value="{{ $gk->kelas->id }}" id="e-kelas-{{ $gk->kelas->id }}">
+                                                <label class="custom-control-label"
+                                                    for="e-kelas-{{ $gk->kelas->id }}">{{ $gk->kelas->nama_kelas }}</label>
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
                                 </div>
                             </div>
+                            {{-- END MODIFIED --}}
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="">Waktu Jam</label>
@@ -393,6 +406,29 @@
 
             // Initialize summernote on all summernote elements (soal and options)
             initSummernote($('.summernote'));
+
+            // START NEW VALIDATION LOGIC: Memastikan minimal satu kelas terpilih
+            
+            // Validation for the main form (when creating/editing ujian)
+            $('form[action="{{ url('/guru/ujian') }}"]').on('submit', function(e) {
+                if ($('.checkbox-kelas:checked').length === 0) {
+                    e.preventDefault();
+                    alert('Mohon pilih minimal satu Kelas untuk melanjutkan pembuatan ujian.');
+                    return false;
+                }
+            });
+
+            // Validation for the Excel Import form
+            $('#excel_ujian form').on('submit', function(e) {
+                if ($('.checkbox-e-kelas:checked').length === 0) {
+                    e.preventDefault();
+                    alert('Mohon pilih minimal satu Kelas untuk import excel.');
+                    return false;
+                }
+            });
+            
+            // END NEW VALIDATION LOGIC
+
 
             // Event delegation for the audio button
             $('#soal_pg').on('click', '.tambah-audio-btn', function() {

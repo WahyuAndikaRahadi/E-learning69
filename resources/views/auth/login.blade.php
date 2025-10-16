@@ -99,9 +99,9 @@
             <div class="form-form-wrap">
                 <div class="form-container">
                     <div class="form-content">
-                        <div style="border:3px solid #1b55e2; margin: 10px; padding: 30px; border-radius: 15px;">
+                        <div style="border:3px solid #1b55e2; margin: 0px; padding: 40px; border-radius: 15px;">
 
-                            <h1 class="">Log In to <a href=""><span class="brand-name">e-Learning 69</span></a></h1>
+                            <h1 class="">Login to <a href=""><span class="brand-name">e-Learning 69</span></a></h1>
                             <form action="{{ url('/login') }}" method="POST" class="text-left">
                                 <div class="form">
                                     @csrf

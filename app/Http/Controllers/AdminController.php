@@ -312,97 +312,128 @@ class AdminController extends Controller
         ]);
     }
     public function tambah_siswa_(Request $request)
-    {
-        $email_settings = EmailSettings::first();
-        $niss = $request->get('nis');
+{
+    $email_settings = EmailSettings::first();
+    $niss = $request->get('nis');
 
-        $siswa = [];
-        $nis_sebelumnya = '';
-        $email_sebelumnya = '';
-        $index = 0;
-        foreach ($niss as $nis) {
+    $siswa = [];
+    $nis_sebelumnya = '';
+    $email_sebelumnya = '';
+    $index = 0;
 
-            if ($nis == $nis_sebelumnya) {
-                return redirect('/admin/siswa')->with('pesan', "
-                    <script>
-                        swal({
-                            title: 'Error!',
-                            text: 'Duplicate data NIS detected!',
-                            type: 'error',
-                            padding: '2em'
-                        })
-                    </script>
-                ");
-            }
-            if ($request['email'][$index] == $email_sebelumnya) {
-                return redirect('/admin/siswa')->with('pesan', "
-                    <script>
-                        swal({
-                            title: 'Error!',
-                            text: 'Duplicate data Email detected!',
-                            type: 'error',
-                            padding: '2em'
-                        })
-                    </script>
-                ");
-            }
-
-            array_push($siswa, [
-
-                'nis' => $nis,
-                'nama_siswa' => $request['nama_siswa'][$index],
-                'gender' => $request['gender'][$index],
-                'kelas_id' => $request['kelas_id'][$index],
-                'email' => $request['email'][$index],
-                'password' => bcrypt($nis),
-                'avatar' => 'default.png',
-                'role' => 3,
-                'is_active' => 1,
-                'created_at' => date('Y-m-d H:i:s', time())
-            ]);
-            $nis_sebelumnya = $nis;
-            $email_sebelumnya = $request['email'][$index];
-            $index++;
-        }
-
-        try {
-            Siswa::insert($siswa);
-
-            if ($email_settings->notif_akun == '1') {
-                foreach ($siswa as $s) {
-                    $details = [
-                        'nama' => $s['nama_siswa'],
-                        'email' => $s['email'],
-                        'password' => $s['nis']
-                    ];
-                    Mail::to($details['email'])->send(new NotifAkun($details));
-                }
-            }
-
-            return redirect('/admin/siswa')->with('pesan', "
-                <script>
-                    swal({
-                        title: 'Berhasil!',
-                        text: 'data siswa di simpan!',
-                        type: 'success',
-                        padding: '2em'
-                    })
-                </script>
-            ");
-        } catch (\Exception $exceptions) {
-            $pesan_error = str_replace('\'', '\`', $exceptions->errorInfo[2]);
+    // --- Validation Loop for Duplicate Data in the Request ---
+    foreach ($niss as $nis) {
+        // Check for duplicate NIS in the submitted form data
+        if ($nis == $nis_sebelumnya) {
             return redirect('/admin/siswa')->with('pesan', "
                 <script>
                     swal({
                         title: 'Error!',
-                        text: '$pesan_error',
+                        text: 'Duplicate data NIS detected in the form!',
                         type: 'error',
                         padding: '2em'
                     })
                 </script>
             ");
         }
+        
+        // Check for duplicate Email in the submitted form data
+        if ($request['email'][$index] == $email_sebelumnya) {
+            return redirect('/admin/siswa')->with('pesan', "
+                <script>
+                    swal({
+                        title: 'Error!',
+                        text: 'Duplicate data Email detected in the form!',
+                        type: 'error',
+                        padding: '2em'
+                    })
+                </script>
+            ");
+        }
+
+        array_push($siswa, [
+            'nis' => $nis,
+            'nama_siswa' => $request['nama_siswa'][$index],
+            'gender' => $request['gender'][$index],
+            'kelas_id' => $request['kelas_id'][$index],
+            'email' => $request['email'][$index],
+            'password' => bcrypt($nis),
+            'avatar' => 'default.png',
+            'role' => 3,
+            'is_active' => 1,
+            'created_at' => date('Y-m-d H:i:s', time())
+        ]);
+        
+        $nis_sebelumnya = $nis;
+        $email_sebelumnya = $request['email'][$index];
+        $index++;
     }
+
+    // --- Database Insert and Email Sending ---
+    try {
+        // 1. Database Insertion
+        Siswa::insert($siswa);
+
+        // 2. Email Notifications (if enabled)
+        if ($email_settings->notif_akun == '1') {
+            foreach ($siswa as $s) {
+                $details = [
+                    'nama' => $s['nama_siswa'],
+                    'email' => $s['email'],
+                    'password' => $s['nis']
+                ];
+                // This line can throw a Swift_TransportException
+                Mail::to($details['email'])->send(new NotifAkun($details));
+            }
+        }
+
+        // Success message
+        return redirect('/admin/siswa')->with('pesan', "
+            <script>
+                swal({
+                    title: 'Berhasil!',
+                    text: 'Data siswa disimpan!',
+                    type: 'success',
+                    padding: '2em'
+                })
+            </script>
+        ");
+    } catch (\Exception $exceptions) {
+        
+        // --- CORRECTED EXCEPTION HANDLING ---
+        
+        $pesan_error = 'Terjadi kesalahan yang tidak terduga.'; // Default error message
+
+        // Check if it's a PDOException (Database Error, e.g., unique constraint violation)
+        if ($exceptions instanceof \PDOException) {
+            // PDOExceptions use errorInfo[2] for the specific error message
+            $pesan_error = $exceptions->errorInfo[2];
+        } 
+        // Check if it's a Swift_TransportException (Email Error)
+        elseif ($exceptions instanceof \Swift_TransportException) {
+            // SwiftMailer exceptions use getMessage()
+            $pesan_error = "Gagal mengirim email notifikasi. Periksa konfigurasi SMTP Anda. Detail: " . $exceptions->getMessage();
+        } 
+        // For all other exceptions
+        else {
+            $pesan_error = $exceptions->getMessage();
+        }
+        
+        // Clean up the error message for use in the JavaScript string
+        $pesan_error_clean = str_replace('\'', '\`', $pesan_error);
+        
+        return redirect('/admin/siswa')->with('pesan', "
+            <script>
+                swal({
+                    title: 'Error!',
+                    text: '{$pesan_error_clean}',
+                    type: 'error',
+                    padding: '2em'
+                })
+            </script>
+        ");
+    }
+}
     public function edit_siswa(Request $request)
     {
         $nis = $request->nis;

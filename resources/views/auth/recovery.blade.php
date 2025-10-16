@@ -709,8 +709,8 @@
     <div class="form-container">
      <div class="form-form">
     <div class="form-form-wrap">
-        <div class="form-container">
-            <div class="form-content">
+        <div class="form-container bagus">
+            <div class="form-content"  style="border:3px solid #1b55e2; margin: 0px; padding: 40px; border-radius: 15px;">
 
                 <h1 class="">Ajukan Ganti Password</h1>
                 <p class="signup-link">Masukkan email dan password baru yang Anda inginkan. Admin akan memprosesnya.</p>
@@ -749,16 +749,17 @@
                             <div class="field-wrapper">
                                 <button type="submit" class="btn btn-primary" value="">Ajukan Permintaan</button>
                             </div>
+                            <br>
                             <p class="signup-link">
                                 <a href="{{ url('/') }}">Kembali</a>
                             </p>
                         </div>
                     </div>
                 </form>
-                <p class="terms-conditions">Copyright © 2025 SMK Negeri 69 Jakarta, All rights reserved.</p>
-
             </div>
+                             <p class="terms-conditions" style="">© 2025 SMK Negeri 69 Jakarta, All rights reserved.</p>
         </div>
+         
     </div>
 </div>
         <div class="form-image">

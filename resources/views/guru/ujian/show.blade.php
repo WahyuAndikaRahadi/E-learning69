@@ -86,62 +86,73 @@
                                                                     <ol type="A"
                                                                         style="color: #000; margin-left: -20px;">
                                                                         <li class="answer-number">
-                                                                            <label
-                                                                                for="answer-{{ $soal->id }}-{{ substr($soal->pg_1, 0, 1) }}"
+                                                                            {{-- Label A secara manual --}}
+                                                                            <label for="answer-{{ $soal->id }}-A"
                                                                                 class="answer-text" style="color: #000;">
                                                                                 @if (str_contains($soal->pg_1, '<img'))
-                                                                                    {!! substr($soal->pg_1, 3) !!}
+                                                                                    {!! $soal->pg_1 !!}
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @else
-                                                                                    <span>{!! substr($soal->pg_1, 3) !!}</span>
+                                                                                    <span>{!! $soal->pg_1 !!}</span>
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @endif
                                                                             </label>
                                                                         </li>
                                                                         <li class="answer-number">
-                                                                            <label
-                                                                                for="answer-{{ $soal->id }}-{{ substr($soal->pg_2, 0, 1) }}"
+                                                                            {{-- Label B secara manual --}}
+                                                                            <label for="answer-{{ $soal->id }}-B"
                                                                                 class="answer-text" style="color: #000;">
                                                                                 @if (str_contains($soal->pg_2, '<img'))
-                                                                                    {!! substr($soal->pg_2, 3) !!}
+                                                                                    {!! $soal->pg_2 !!}
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @else
-                                                                                    <span>{!! substr($soal->pg_2, 3) !!}</span>
+                                                                                    <span>{!! $soal->pg_2 !!}</span>
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @endif
                                                                             </label>
                                                                         </li>
                                                                         <li class="answer-number">
-                                                                            <label
-                                                                                for="answer-{{ $soal->id }}-{{ substr($soal->pg_3, 0, 1) }}"
+                                                                            {{-- Label C secara manual --}}
+                                                                            <label for="answer-{{ $soal->id }}-C"
                                                                                 class="answer-text" style="color: #000;">
                                                                                 @if (str_contains($soal->pg_3, '<img'))
-                                                                                    {!! substr($soal->pg_3, 3) !!}
+                                                                                    {!! $soal->pg_3 !!}
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @else
-                                                                                    <span>{!! substr($soal->pg_3, 3) !!}</span>
+                                                                                    <span>{!! $soal->pg_3 !!}</span>
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @endif
                                                                             </label>
                                                                         </li>
                                                                         <li class="answer-number">
-                                                                            <label
-                                                                                for="answer-{{ $soal->id }}-{{ substr($soal->pg_4, 0, 1) }}"
+                                                                            {{-- Label D secara manual --}}
+                                                                            <label for="answer-{{ $soal->id }}-D"
                                                                                 class="answer-text" style="color: #000;">
                                                                                 @if (str_contains($soal->pg_4, '<img'))
-                                                                                    {!! substr($soal->pg_4, 3) !!}
+                                                                                    {!! $soal->pg_4 !!}
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @else
-                                                                                    <span>{!! substr($soal->pg_4, 3) !!}</span>
+                                                                                    <span>{!! $soal->pg_4 !!}</span>
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @endif
                                                                             </label>
                                                                         </li>
                                                                         <li class="answer-number">
-                                                                            <label
-                                                                                for="answer-{{ $soal->id }}-{{ substr($soal->pg_5, 0, 1) }}"
+                                                                            {{-- Label E secara manual --}}
+                                                                            <label for="answer-{{ $soal->id }}-E"
                                                                                 class="answer-text" style="color: #000;">
                                                                                 @if (str_contains($soal->pg_5, '<img'))
-                                                                                    {!! substr($soal->pg_5, 3) !!}
+                                                                                    {!! $soal->pg_5 !!}
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @else
-                                                                                    <span>{!! substr($soal->pg_5, 3) !!}</span>
+                                                                                    <span>{!! $soal->pg_5 !!}</span>
+                                                                                    {{-- Hapus substr(..., 3) --}}
                                                                                 @endif
                                                                             </label>
                                                                         </li>
                                                                     </ol>
                                                                 </div>
+
                                                                 <hr>
                                                                 <div class="mt-3">
                                                                     <h6 class="text-center">Analisis Jawaban Siswa per Soal

@@ -144,7 +144,7 @@
         <div class="form-form">
             <div class="form-form-wrap">
                 <div class="form-container">
-                    <div class="form-content">
+                    <div class="form-content" >
                         <h1 class="">Daftar Akun<br /><span class="brand-name">e-Learning 69</span></h1>
                         <p class="signup-link">Sudah punya akun? <a href="{{ url("/") }}">Log in</a></p>
                         <form action="{{ url("/register") }}" method="POST" class="text-left" id="myform">

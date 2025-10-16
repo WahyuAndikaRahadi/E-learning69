@@ -10,12 +10,51 @@
         .progress{
             display: none;
         }
+
+        .custom-file-container__image-preview__item__img {
+            display: none;
+        }
+        
+        .custom-file-container__image-preview__item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: #ebedf2;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+
+        .custom-file-container__image-preview__item::before {
+            font-family: 'Feather-Icons';
+            content: '\e92e'; 
+            font-size: 20px;
+            color: #506690;
+            margin-right: 12px;
+        }
+
+        .custom-file-container__image-preview__item-title {
+            flex: 1; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0; 
+            color: #506690;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .custom-file-container__custom-file__custom-file-control {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 100px; 
+        }
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div id="content" class="main-content">
         <div class="layout-px-spacing">
             <div class="row layout-top-spacing">
-                <div class="col-lg-8 layout-spacing">
+                <div class="col-lg-10 layout-spacing">
                     <div class="widget shadow p-3">
                         <div class="widget-heading">
                             <h5 class="">Tambah Materi</h5>
@@ -62,7 +101,7 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                                 <textarea class="form-control summernote" name="teks" id="teks" cols="30" rows="5" wrap="hard">
-                                   {!! old('teks') !!}
+                                    {!! old('teks') !!}
                                 </textarea>
                             </div>
                             <div class="row">
